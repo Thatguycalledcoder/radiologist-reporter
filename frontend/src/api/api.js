@@ -1,8 +1,12 @@
 import axios from 'axios';
 
+const instance = axios.create({
+    baseURL: "http://127.0.0.1:8000/"
+});
+
 export const fetchReports = async () => {
     try {
-        const response = await axios.get('https://api.example.com/reports');
+        const response = await instance.get('/reports');
         return response.data;
     }
     catch (error) {
@@ -13,7 +17,7 @@ export const fetchReports = async () => {
 
 export const getReport = async (id) => {
     try {
-        const response = await axios.get(`https://api.example.com/reports/${id}`);
+        const response = await instance.get(`/reports/${id}`);
         return response.data;
     }
     catch (error) {
@@ -34,7 +38,7 @@ export const createReport = async ({title, reportStatus, findings, impression}) 
             "impression": impression
         }
 
-        const response = await axios.post('https://api.example.com/reports', reportData);
+        const response = await instance.post('/reports', reportData);
         return response.data;
     }
     catch (error) {

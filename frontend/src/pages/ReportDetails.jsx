@@ -1,10 +1,31 @@
 import { useParams } from "react-router-dom";
 import reports from "../data/reports";
+import { useEffect, useState } from "react";
+import { getReport } from "../api/api";
 
 const ReportDetails = () => {
     const { id } = useParams();
 
-    const report = reports.find(report => report.id === parseInt(id));
+    const [loading, setLoading] = useState(false);
+    const [report, setReport] = useState({});
+
+    useEffect(() => {
+        const fetchReport = async () => {
+            setLoading(true);
+
+            try {
+                const response = await getReport(id);
+                if (response.success === true)
+                    setReport(response.report);
+            } catch (error) {
+
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchReport();
+    }, [id])
 
     return (
         <main>
@@ -15,12 +36,16 @@ const ReportDetails = () => {
                 Back to Reports
             </a>
 
-            <h2>{report.title}</h2>
-            <p>Status: {report.reportStatus}</p>
-            <h4>Findings</h4>
-            <p>{report.findings}</p>
-            <h4>Impression</h4>
-            <p>{report.impression}</p>
+            {loading ? <p>Loading...</p> :
+                <>
+                    <h2>{report?.title}</h2>
+                    <p>Status: {report?.reportStatus}</p>
+                    <h4>Findings</h4>
+                    <p>{report?.findings}</p>
+                    <h4>Impression</h4>
+                    <p>{report?.impression}</p>
+                </>
+            }
         </main>
     );
 }
