@@ -1,42 +1,49 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+main {
+  margin: 24px;
+}
+
+.report-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  list-style-type: none;
+  margin-block: 48px;
+}
+
+.report-card li {
+  background-color: rgb(196, 196, 196);
+  width: 50%;
+  border-radius: 16px;
+  padding: 8px 24px;
+  transition: transform 200ms ease-in-out;
+}
+.report-card li a {
+  color: black;
+}
+.report-card li:hover {
+  transform: scale(1.02);
+}
+
+.report-form {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+}
+
+.report-form label {
+  font-weight: bold;
+}
+
+.report-form input,
+.report-form select,
+.report-form textarea {
+  padding: 8px;
+}
+
+.report-form-error {
+  min-height: 20px;
+  color: orange;
   text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
