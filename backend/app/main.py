@@ -1,5 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from app.database import init_db, close_db, populate_reports
+from app.dependencies import get_db
+from app.models import Report
+from tortoise.exceptions import DoesNotExist
 
 app = FastAPI()
 
@@ -15,43 +19,35 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-reports = [
-    {
-        "id": 1,
-        "title": "Chest X-ray",
-        "findings": "Right lower lobe infiltrate. No pneumothorax or pleural effusion. Cardiomegaly is present.",
-        "reportStatus": "Final",
-        "impression": "Right lower lobe pneumonia. Recommend follow-up chest X-ray in 2 weeks."
-    },
-    {
-        "id": 2,
-        "title": "Abdominal Ultrasound",
-        "findings": "Gallbladder wall thickening. No gallstones or biliary duct dilatation.",
-        "reportStatus": "Preliminary",
-        "impression": "Consider cholecystitis. Further evaluation may be needed."
-    },
-    {
-        "id": 3,
-        "title": "MRI Brain",
-        "findings": "No acute intracranial hemorrhage or mass lesion. Mild age-related brain atrophy.",
-        "reportStatus": "Final",
-        "impression": "Normal brain MRI. No acute findings."
-    }
-]
+
+@app.on_event("startup")
+async def startup_event():
+    await init_db()  # Initialize the database connection when the app starts
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    await close_db()
 
 
 # Get all reports
 @app.get("/reports")
-async def read_reports():
+async def read_reports(db=Depends(get_db)):
+    reports = await Report.all()
+
     return {"success": True, "reports": reports}
 
 
-# Get a report
+# Get a report test
 @app.get("/reports/{report_id}")
-async def get_report(report_id):
+async def get_report(report_id, db=Depends(get_db)):
     # Get a report from the reports
-    report = next((report for report in reports if report["id"] == int(report_id)), None)
-    if report is None:
+    try:
+        report = await Report.get(id=report_id)
+        return {"success": True, "report": report}
+    except DoesNotExist:
         return {"success": False, "message":"Report not found"}
-    return {"success": True, "report": report}
 
+@app.get("/generate")
+async def add_test_reports(db=Depends(get_db)):
+    await populate_reports()
