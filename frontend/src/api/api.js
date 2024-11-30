@@ -33,7 +33,7 @@ export const createReport = async ({title, reportStatus, findings, impression}) 
     try {
         const reportData = {
             "title": title,
-            "status": reportStatus,
+            "reportStatus": reportStatus,
             "findings": findings,
             "impression": impression
         }

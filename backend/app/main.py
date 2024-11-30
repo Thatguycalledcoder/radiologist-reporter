@@ -34,7 +34,7 @@ async def shutdown_event():
 # Get all reports
 @app.get("/reports")
 async def read_reports():
-    reports = await Report.all()
+    reports = await Report.all().order_by("-id")
 
     return {"success": True, "reports": reports}
 

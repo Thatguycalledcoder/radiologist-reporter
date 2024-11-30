@@ -1,15 +1,22 @@
 import { useState } from "react";
+import { createReport } from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 const AddReport = () => {
+    const navigate = useNavigate();
+
     const [title, setTitle] = useState("");
     const [reportStatus, setReportStatus] = useState("");
     const [findings, setFindings] = useState("");
     const [impression, setImpression] = useState("");
     const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage("");
+        setLoading(true);
+
         // Basic validation
         if (!title || !reportStatus || !findings || !impression) {
             setMessage("Please fill in all fields.");
@@ -40,7 +47,20 @@ const AddReport = () => {
             return;
         }
 
-        console.log(`Title: ${title} \nStatus: ${reportStatus} \nFindings: ${findings} \nImpression: ${impression}`)
+        try {
+            const response = await createReport({ title, reportStatus, findings, impression });
+            if (response.success !== true) {
+                setMessage("Failed to add report");
+                return;
+            }
+
+            setMessage("Report added successfully");
+            navigate("/");
+        } catch (error) {
+            setMessage("Failed to add report");
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -101,7 +121,7 @@ const AddReport = () => {
                 <button
                     type="submit"
                 >
-                    Add Report +
+                    {loading ? "Processing..." : "Add Report +"}
                 </button>
             </form>
         </main>

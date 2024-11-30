@@ -7,7 +7,7 @@ const ReportDetails = () => {
     const { id } = useParams();
 
     const [loading, setLoading] = useState(false);
-    const [report, setReport] = useState({});
+    const [report, setReport] = useState(null);
 
     useEffect(() => {
         const fetchReport = async () => {
@@ -37,14 +37,19 @@ const ReportDetails = () => {
             </a>
 
             {loading ? <p>Loading...</p> :
-                <>
-                    <h2>{report?.title}</h2>
-                    <p>Status: {report?.reportStatus}</p>
-                    <h4>Findings</h4>
-                    <p>{report?.findings}</p>
-                    <h4>Impression</h4>
-                    <p>{report?.impression}</p>
-                </>
+                <div>
+                    {report ?
+                        <>
+                            <h2>{report?.title}</h2>
+                            <p>Status: {report?.reportStatus}</p>
+                            <h4>Findings</h4>
+                            <p>{report?.findings}</p>
+                            <h4>Impression</h4>
+                            <p>{report?.impression}</p>
+                        </>
+                        : <p>No report found with the given ID.</p>
+                    }
+                </div>
             }
         </main>
     );
