@@ -3,7 +3,7 @@ from app.models import Report
 import asyncio
 
 
-async def init_db(retries=5, delay=2):
+async def init_db(retries=3, delay=2):
     """
     Initialize the database with retry mechanism to wait for readiness.
     """
