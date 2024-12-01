@@ -4,7 +4,7 @@ from app.models import Report
 
 async def init_db():
     await Tortoise.init(
-        db_url='postgres://postgres:daveking@localhost:5432/report_db',
+        db_url='postgres://postgres:daveking@localhost:5433/report_db',
         modules={"models": ["app.models.report"]}
     )
     
