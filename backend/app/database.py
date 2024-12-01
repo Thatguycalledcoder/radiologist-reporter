@@ -1,16 +1,26 @@
 from tortoise import Tortoise
 from app.models import Report
+import asyncio
 
 
-async def init_db():
-    await Tortoise.init(
-        db_url='postgres://postgres:daveking@localhost:5433/report_db',
-        modules={"models": ["app.models.report"]}
-    )
+async def init_db(retries=5, delay=2):
+    """
+    Initialize the database with retry mechanism to wait for readiness.
+    """
+    for _ in range(retries):
+        try:
+            await Tortoise.init(
+                db_url="postgres://postgres:daveking@localhost:5433/report_db",
+                modules={"models": ["app.models"]}
+            )
+            await Tortoise.generate_schemas()
+            print("Database initialized successfully.")
+            return
+        except Exception as e:
+            print(f"Failed to initialize database. Retrying in {delay} seconds...")
+            await asyncio.sleep(delay)
+        
     
-    await Tortoise.generate_schemas()
-    
-
 async def close_db():
     await Tortoise.close_connections()
     

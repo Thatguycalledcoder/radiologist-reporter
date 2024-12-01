@@ -49,7 +49,12 @@ async def get_report(report_id):
     except DoesNotExist as e:
         raise HTTPException(
             status_code=404, 
-            detail=f"Failed to add report. Integrity error: {str(e)}"
+            detail=f"Failed to get report. Report does not exist."
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Failed to get report. Error: {str(e)}"
         )
 
 
@@ -78,7 +83,7 @@ async def create_report(report: ReportSchema):
         # Catch other unexpected errors
         raise HTTPException(
             status_code=500, 
-            detail=f"An unexpected error occurred: {str(e)}"
+            detail=f"Failed to add report: {str(e)}"
         )
 
 
