@@ -2,7 +2,7 @@ from app.database import init_db, close_db, populate_reports
 from app.models import Report
 from app.schemas import ReportSchema
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from tortoise.exceptions import DoesNotExist, IntegrityError
 
