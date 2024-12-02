@@ -18,7 +18,7 @@ async def init_db(retries=3, delay=2):
             return
         except Exception as e:
             # Handle specific connection errors
-            print(f"Attempt {attempt + 1} failed: Retrying in {delay} seconds...")
+            print(f"Database connection attempt {attempt + 1} failed: Retrying in {delay} seconds...")
             if attempt < retries - 1:
                 await asyncio.sleep(delay)
             else:
