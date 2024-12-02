@@ -48,6 +48,7 @@ Before getting started, ensure you have the following installed:
    ```
 
 2. **Start the PostgreSQL Database in Docker**
+
    Run the following command to start the PostgreSQL database container:
 
    ```bash
@@ -55,6 +56,7 @@ Before getting started, ensure you have the following installed:
    ```
 
 3. **Set Up the Python Virtual Environment**
+
    Create a virtual environment:
 
    ```bash
@@ -73,6 +75,7 @@ Before getting started, ensure you have the following installed:
      ```
 
 5. **Install Python Dependencies**
+
    Install the required Python packages:
 
    ```bash
@@ -80,17 +83,25 @@ Before getting started, ensure you have the following installed:
    ```
 
 6. **Run the Backend Development Server**
+
    Start the FastAPI backend server:
 
    ```bash
-   uvicorn app.main:app --reload
+   uvicorn app.main:app
    ```
 
 7. **Verify the Backend**
-   Open your browser or a tool like Postman and navigate to:
+
+   Open your browser and navigate to:
 
    ```
    http://127.0.0.1:8000/docs
+   ```
+
+   OR
+
+   ```
+   http://127.0.0.1:8000/redoc
    ```
 
    This will display the auto-generated FastAPI documentation.
@@ -101,32 +112,32 @@ Before getting started, ensure you have the following installed:
 
 **Navigate to the Project Root**
 
-If already in backend directory, navigate to the project root 
-```bash
-cd ..
-```
+1. Open another terminal or command prompt.
 
-1. **Navigate to the Frontend Directory**
+2. **Navigate to the Frontend Directory**
 
    ```bash
    cd frontend
    ```
 
-2. **Install Node.js Dependencies**
+3. **Install Node.js Dependencies**
+
    Run the following command to install required npm packages:
 
    ```bash
    npm install
    ```
 
-3. **Start the Frontend Development Server**
+4. **Start the Frontend Development Server**
+
    Start the Vite development server:
 
    ```bash
    npm run dev
    ```
 
-4. **Access the Frontend**
+5. **Access the Frontend**
+
    The development server URL will be printed in the terminal, typically:
 
    ```
