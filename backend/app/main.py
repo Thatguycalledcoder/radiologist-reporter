@@ -1,12 +1,22 @@
-from fastapi import FastAPI, Depends, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
 from app.database import init_db, close_db, populate_reports
-from app.dependencies import get_db
 from app.models import Report
 from app.schemas import ReportSchema
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from tortoise.exceptions import DoesNotExist, IntegrityError
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await init_db()  # Initialize the database connection when the app starts
+    
+    yield
+
+    await close_db()
+    
+
+app = FastAPI(lifespan=lifespan)
 
 origins = [
     "http://localhost:5173",
@@ -19,16 +29,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.on_event("startup")
-async def startup_event():
-    await init_db()  # Initialize the database connection when the app starts
-
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    await close_db()
 
 
 # Get all reports
