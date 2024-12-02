@@ -41,7 +41,7 @@ async def read_reports():
 
 # Get a report test
 @app.get("/reports/{report_id}")
-async def get_report(report_id):
+async def get_report(report_id: int):
     # Get a report from the reports
     try:
         report = await Report.get(id=report_id)

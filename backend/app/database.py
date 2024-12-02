@@ -7,7 +7,7 @@ async def init_db(retries=3, delay=2):
     """
     Initialize the database with retry mechanism to wait for readiness.
     """
-    for _ in range(retries):
+    for attempt in range(retries):
         try:
             await Tortoise.init(
                 db_url="postgres://postgres:daveking@localhost:5433/report_db",
@@ -17,8 +17,12 @@ async def init_db(retries=3, delay=2):
             print("Database initialized successfully.")
             return
         except Exception as e:
-            print(f"Failed to initialize database. Retrying in {delay} seconds...")
-            await asyncio.sleep(delay)
+            # Handle specific connection errors
+            print(f"Attempt {attempt + 1} failed: Retrying in {delay} seconds...")
+            if attempt < retries - 1:
+                await asyncio.sleep(delay)
+            else:
+                raise RuntimeError("Failed to connect to the database after multiple attempts.")
         
     
 async def close_db():
