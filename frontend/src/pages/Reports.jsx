@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import reports from "../data/reports";
 import { fetchReports } from "../api/api";
 
 const Reports = () => {

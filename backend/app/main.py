@@ -39,10 +39,9 @@ async def read_reports():
     return {"success": True, "reports": reports}
 
 
-# Get a report test
+# Get a report
 @app.get("/reports/{report_id}")
 async def get_report(report_id: int):
-    # Get a report from the reports
     try:
         report = await Report.get(id=report_id)
         return {"success": True, "report": report}
@@ -67,7 +66,7 @@ async def create_report(report: ReportSchema):
             title=report.title,
             findings=report.findings,
             reportStatus=report.reportStatus,
-            impression=report.impression,  # Fixed typo from "impressions"
+            impression=report.impression,
         )
 
         # Return success response

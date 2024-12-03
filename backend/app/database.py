@@ -28,7 +28,8 @@ async def init_db(retries=3, delay=2):
 async def close_db():
     await Tortoise.close_connections()
     
-    
+
+# Functin to add sample reports to database
 async def populate_reports():
     reports = [
         {

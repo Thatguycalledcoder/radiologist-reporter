@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import reports from "../data/reports";
 import { useEffect, useState } from "react";
 import { getReport } from "../api/api";
 
@@ -18,7 +17,7 @@ const ReportDetails = () => {
                 if (response.success === true)
                     setReport(response.report);
             } catch (error) {
-
+                console.error('Error fetching report:', error);
             } finally {
                 setLoading(false);
             }
